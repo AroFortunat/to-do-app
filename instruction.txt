@@ -1,6 +1,17 @@
 
-manao todo app: tâche, manana anarana ,description créateur dia assigner amniza, date de fin
+manao todo app: 
+
+tâche, 
+manana anarana ,
+
+description 
+
+créateur dia assigner amniza, 
+
+date de fin
+
 misy status, affaire,en cours na tapitra
+
 tsy maintsy authentiifier ny olona, login sy authentification
 
 règle:-tâche ray créateur ihany no mahita azy
