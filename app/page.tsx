@@ -29,18 +29,20 @@ export default function Home() {
         <div className="hero-overlay bg-opacity-60"></div>
         <div className="hero-content text-neutral-content text-center">
           <div className="max-w-lg">
-            <h1 className="mb-5 text-8xl font-bold"><span className="text-primary">To do </span> App</h1>
+            <h1 className="mb-5 text-8xl font-bold"><span className="text-primary">To DO </span> App</h1>
             <p className="mb-5 text-2xl">
-              Avec <span className="text-primary"> To do </span>, transformez votre quotidien en une expérience fluide et sans stress. Planifiez, priorisez et accomplissez vos objectifs grâce à une interface intuitive conçue pour <span className="font-bold text-primary"> vous faire gagner du temps </span> et de la sérénité.
+              Avec <span className="text-primary font-bold"> To DO </span>, transformez votre quotidien en une expérience fluide et sans stress. Planifiez, priorisez et accomplissez vos objectifs grâce à une interface intuitive conçue pour <span className="font-bold text-primary"> vous faire gagner du temps </span> et de la sérénité.
             </p>
             {isSignedIn ? (
               <>
-                <button
-                  onClick={handleClickRedirectTask}
-                  className="btn btn-primary text-xl">Accéder a vos liste de taches</button>
-                <button
-                  onClick={handleClickNewTask}
-                  className="btn btn-primary ml-4 text-xl btn-outline">Ajouter une nouvelle Taches</button>
+                <div className="flex mb-5">
+                  <button
+                    onClick={handleClickRedirectTask}
+                    className="btn btn-primary text-xl">Accéder a vos liste de taches</button>
+                  <button
+                    onClick={handleClickNewTask}
+                    className="btn btn-primary ml-4 text-xl btn-outline">Ajouter une nouvelle Taches</button>
+                </div>
               </>
             ) : (
               <>
