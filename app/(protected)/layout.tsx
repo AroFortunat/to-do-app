@@ -24,7 +24,7 @@ const layout: React.FC<propss> = ({ children }) => {
                     <ul className='flex gap-4'>
                         <li className='btn btn-secondary text-white'><a href={`/task/${user?.id}`}>Task</a></li>
                         <li className='btn btn-secondary text-white'><a href={'/new-task'}>New Task</a></li>
-                        <li className='btn btn-secondary text-white'><a href={`/task-status`}>Task Status</a></li>
+                        <li className='btn btn-secondary text-white'><a href={'/task-status'}>Task Status</a></li>
                     </ul>
                 </div>
                 <div className='mr-6'>
