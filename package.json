@@ -7,11 +7,12 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "db:push":"npx prisma push",
-    "db:studio" : "npx prisma studio"
+    "db:push": "npx prisma push",
+    "db:studio": "npx prisma studio"
   },
   "dependencies": {
     "@clerk/nextjs": "^6.11.2",
+    "lucide-react": "^0.475.0",
     "next": "15.1.7",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"

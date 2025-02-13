@@ -6,7 +6,7 @@ import NotImportantAndNotUrgent from './NotImportantAndNotUrgent'
 
 const TaskList = () => {
   return (
-    <div className='h-screen flex items-center justify-center'>
+    <div className='m-6'>
       <div className="grid grid-cols-2 gap-4">
         <UrgentAndImportant/>
         <UrgentNotImportant/>
