@@ -4,7 +4,7 @@ import { User } from "./$Type";
 
 export const verifUserAndCreate = async (user:User)=>{
     try {
-        const userVerif = prisma.user.findFirst({
+        const userVerif = await prisma.user.findFirst({
             where:{
                 email:user.email
             }
@@ -16,8 +16,10 @@ export const verifUserAndCreate = async (user:User)=>{
                     email:user.email
                 }
             })
-        }
+        }else{
+            console.error('User existant déjà')
+        } 
     } catch (error) {
-        throw error   
+        console.error(error)   
     }
 }
