@@ -18,7 +18,7 @@ model User {
 
 model Tache {
   id             String   @id @default(uuid())
-  Nom            String
+  Title          String
   Description    String?
   Priority       PriorityType
   status         statusType @default(en_cours)

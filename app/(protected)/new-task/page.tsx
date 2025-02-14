@@ -2,12 +2,17 @@
 import { fetchAllUsers } from '@/app/action/User/fetchAll'
 import Notification from '@/app/Components/Notification';
 import { User } from '@/Models/User/$Type';
+import { useUser } from '@clerk/nextjs';
 import React, { ReactEventHandler, useEffect, useState } from 'react'
+import DatePicker from 'react-datepicker';
+import "react-datepicker/dist/react-datepicker.css";
 
 const page = () => {
+  const { user } = useUser()
   const [Users, setUsers] = useState<User[]>([]);
   const [Loader, setLoader] = useState<boolean>(true);
   const [notification, setnotification] = useState<string>('');
+  const [startDate, setStartDate] = useState<Date|null>(new Date());
   const removeNotification = () => {
     setnotification('')
   }
@@ -18,6 +23,20 @@ const page = () => {
 
   const handleSubmit: ReactEventHandler = (e) => {
     e.preventDefault()
+    const form = new FormData(e.currentTarget as HTMLFormElement)
+    const title = form.get('title') as string
+    const description = form.get('description') as string
+    const AssignAt = form.get('selectAssignUser') as string
+    const PriorityLevel = form.get('selectPriority') as string
+    const TaskByForm = {
+      Title: title,
+      Description: description,
+      Priority: PriorityLevel,
+      Author_id: user?.id,
+      UserAssignById: AssignAt,
+      Deadline: startDate
+    }
+    console.log(TaskByForm)
   }
   useEffect(() => {
     fetchUsers()
@@ -62,8 +81,9 @@ const page = () => {
               <div>
                 <label htmlFor="desc" className="font-semibold">Description</label>
                 <div className="relative">
-                  <textarea className="textarea textarea-bordered w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-xs" placeholder="Entrer votre description"></textarea>
-
+                  <textarea
+                    name='description'
+                    className="textarea textarea-bordered w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-xs" placeholder="Entrer votre description"></textarea>
                 </div>
               </div>
               <div>
@@ -71,11 +91,11 @@ const page = () => {
                 <div>
                   <select
                     required
-                    name="select"
+                    name="selectAssignUser"
                     id="selection"
                     className="mt-1.5 w-full p-2 rounded-lg border-gray-300 text-gray-700 sm:text-sm"
                   >
-                    <option>Select User</option>
+                    <option></option>
                     {!Users ? (
                       <div className="skeleton h-4 w-28"></div>
                     ) : (
@@ -94,11 +114,11 @@ const page = () => {
                 <div>
                   <select
                     required
-                    name="select"
+                    name="selectPriority"
                     id="selection"
                     className="mt-1.5 w-full p-2 rounded-lg border-gray-300 text-gray-700 sm:text-sm"
                   >
-                    <option>Priority</option>
+                    <option></option>
                     <option value="urgent_and_important"> Urgent et Important</option>
                     <option value="urgent_and__not_important">Urgent Non Important</option>
                     <option value="important_not_urgent">Important et Non Urgent</option>
@@ -110,14 +130,13 @@ const page = () => {
               <div>
                 <label htmlFor="email" className="font-semibold">Deadline : </label>
                 <div className="relative">
-                  <input
-                    type="date"
-                    className="w-full rounded-lg border-gray-500 p-4 pe-12 text-sm shadow-xs"
-                    placeholder="Enter Title for your new Task"
+                  <DatePicker
+                    required
+                    selected={startDate}
+                    onSelect={(date)=> setStartDate(date)}
                   />
                 </div>
               </div>
-
 
               <button
                 type="submit"
