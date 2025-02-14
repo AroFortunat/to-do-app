@@ -11,7 +11,7 @@ const Notification: React.FC<propss> = ({ notification, setNotification }) => {
     }, []);
     return (
         <div>
-            <div className="toast toast-top toast-end">
+            <div className="mt-32 mr-20 toast toast-top toast-end">
                 <div className="alert alert-success">
                     <span>{notification}</span>
                 </div>

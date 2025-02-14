@@ -1,11 +1,16 @@
 'use client'
 import { fetchAllUsers } from '@/app/action/User/fetchAll'
+import Notification from '@/app/Components/Notification';
 import { User } from '@/Models/User/$Type';
 import React, { ReactEventHandler, useEffect, useState } from 'react'
 
 const page = () => {
   const [Users, setUsers] = useState<User[]>([]);
   const [Loader, setLoader] = useState<boolean>(true);
+  const [notification, setnotification] = useState<string>('');
+  const removeNotification = () => {
+    setnotification('')
+  }
   const fetchUsers = async () => {
     const f = await fetchAllUsers()
     setUsers(f)
@@ -18,7 +23,7 @@ const page = () => {
     fetchUsers()
   }, []);
   useEffect(() => {
-      setLoader(false)
+    setLoader(false)
   }, [Users]);
   return (
     <div className='h-screen'>
@@ -28,6 +33,9 @@ const page = () => {
         </div>
       ) : (
         <div className="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
+          {notification && (
+            <Notification notification={notification} setNotification={removeNotification} />
+          )}
           <div className="mx-auto max-w-lg">
             <h1 className="text-center text-2xl font-bold text-indigo-600 sm:text-3xl">Get started today Add your New Task</h1>
             <p className="mx-auto mt-4 max-w-md text-center italic text-gray-500">
