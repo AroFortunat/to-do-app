@@ -1,10 +1,23 @@
 'use client'
-import React, { ReactEventHandler } from 'react'
+import { fetchAllUsers } from '@/app/action/User/fetchAll'
+import { User } from '@/Models/User/$Type';
+import React, { ReactEventHandler, useEffect, useState } from 'react'
 
 const page = () => {
-  const handleSubmit:ReactEventHandler = (e)=>{
+  const [Users, setUsers] = useState<User[]>([]);
+  const [Loader, setLoader] = useState<boolean>(false);
+  const fetchUsers = async () => {
+    const f = await fetchAllUsers()
+    setUsers(f)
+  }
+
+  const handleSubmit: ReactEventHandler = (e) => {
     e.preventDefault()
   }
+  useEffect(() => {
+    fetchUsers()
+  }, []);
+
   return (
     <div className='h-screen'>
       <div className="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
@@ -43,32 +56,36 @@ const page = () => {
               <label htmlFor="selection" className="font-semibold">Assign At :</label>
               <div>
                 <select
+                  required
                   name="select"
                   id="selection"
                   className="mt-1.5 w-full p-2 rounded-lg border-gray-300 text-gray-700 sm:text-sm"
                 >
-                  <option value="">Please select</option>
-                  <optgroup label="A">
-                    <option value="AK">Albert King</option>
-                  </optgroup>
+                  <option value="">Select User</option>
+                  {!Users ? (
+                    <div className="skeleton h-4 w-28"></div>
+                  ) : (
+                    <>
+                      {Users.map((user, key) => (
+                        <option key={key} value={user.id}>{user.email}</option>
+                      ))}</>
+                  )}
 
-                  <optgroup label="B">
-                    <option value="BBK">B.B King</option>
-                    <option value="BG">Buddy Guy</option>
-                  </optgroup>
+                </select>
+              </div>
 
-                  <optgroup label="E">
-                    <option value="EC">Eric Clapton</option>
-                  </optgroup>
-
-                  <optgroup label="J">
-                    <option value="JM">John Mayer</option>
-                    <option value="JH">Jimi Hendrix</option>
-                  </optgroup>
-
-                  <optgroup label="S">
-                    <option value="SRV">Stevie Ray Vaughn</option>
-                  </optgroup>
+            </div>
+            <div>
+              <label htmlFor="selection" className="font-semibold">Priority :</label>
+              <div>
+                <select
+                  required
+                  name="select"
+                  id="selection"
+                  className="mt-1.5 w-full p-2 rounded-lg border-gray-300 text-gray-700 sm:text-sm"
+                >
+                  <option value="">Priority</option>
+                  <option value=""></option>
                 </select>
               </div>
 
