@@ -24,7 +24,7 @@ model Task {
   Priority       PriorityType
   status         statusType   @default(en_cours)
   Author_id      String
-  Assigner_à    String
+  Assign_at      String
   Deadline       DateTime
   Created_At     DateTime     @default(now())
   Task_affected  Affected[]
