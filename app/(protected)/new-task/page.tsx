@@ -1,6 +1,8 @@
 'use client'
+import { createTaskAction } from '@/app/action/Task/createTask';
 import { fetchAllUsers } from '@/app/action/User/fetchAll'
 import Notification from '@/app/Components/Notification';
+import { PriorityTypeLevel } from '@/Models/Tache/$Type';
 import { User } from '@/Models/User/$Type';
 import { useUser } from '@clerk/nextjs';
 import React, { ReactEventHandler, useEffect, useState } from 'react'
@@ -12,7 +14,7 @@ const page = () => {
   const [Users, setUsers] = useState<User[]>([]);
   const [Loader, setLoader] = useState<boolean>(true);
   const [notification, setnotification] = useState<string>('');
-  const [startDate, setStartDate] = useState<Date|null>(new Date());
+  const [startDate, setStartDate] = useState<Date>(new Date());
   const removeNotification = () => {
     setnotification('')
   }
@@ -27,16 +29,17 @@ const page = () => {
     const title = form.get('title') as string
     const description = form.get('description') as string
     const AssignAt = form.get('selectAssignUser') as string
-    const PriorityLevel = form.get('selectPriority') as string
+    const PriorityLevel = form.get('selectPriority') as PriorityTypeLevel
     const TaskByForm = {
       Title: title,
       Description: description,
       Priority: PriorityLevel,
-      Author_id: user?.id,
-      UserAssignById: AssignAt,
+      Author_id: user?.id as string,
+      Assign_at: AssignAt,
       Deadline: startDate
     }
-    console.log(TaskByForm)
+    createTaskAction(TaskByForm)
+    setnotification("Taches Ajouter avec succès")
   }
   useEffect(() => {
     fetchUsers()
@@ -133,7 +136,7 @@ const page = () => {
                   <DatePicker
                     required
                     selected={startDate}
-                    onSelect={(date)=> setStartDate(date)}
+                    onSelect={(date)=> setStartDate(date as Date)}
                   />
                 </div>
               </div>
