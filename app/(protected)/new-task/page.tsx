@@ -104,7 +104,7 @@ const page = () => {
                     ) : (
                       <>
                         {Users.map((user, key) => (
-                          <option key={key} value={user.id}>{user.email}</option>
+                          <option key={key} value={user.email}>{user.email}</option>
                         ))}</>
                     )}
 
