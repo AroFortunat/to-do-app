@@ -1,3 +1,4 @@
+import { CircleAlert } from 'lucide-react';
 import React, { useEffect } from 'react'
 interface propss {
     notification: string,
@@ -11,8 +12,9 @@ const Notification: React.FC<propss> = ({ notification, setNotification }) => {
     }, []);
     return (
         <div>
-            <div className="mt-32 mr-20 toast toast-top toast-end">
-                <div className="alert alert-success">
+            <div className="mt-32 mr-14 toast toast-top toast-end">
+                <div className=" text-white flex alert alert-success">
+                    <CircleAlert className='text-white w-5 h-5' />
                     <span>{notification}</span>
                 </div>
             </div>
