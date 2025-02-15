@@ -9,7 +9,7 @@ export const createTaskModel = async (taches:Task)=>{
                 Title:taches.Title,
                 Description:taches.Description??null,
                 Priority:taches.Priority,
-                Assigner_à:taches.Assign_at,
+                Assign_at:taches.Assign_at,
                 Deadline:taches.Deadline,
                 Author_id:taches.Author_id
             }
