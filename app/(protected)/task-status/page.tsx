@@ -37,7 +37,15 @@ const page = () => {
   }, [user]);
   const handleSelect:ReactEventHandler = (e)=>{
       const event = e.target as HTMLSelectElement
-      console.log(event.value)
+      if (event.value === "All") {
+        fetchTasks(user?.emailAddresses[0].emailAddress as string)
+
+      }
+      if (Tasks) {
+        const tabFilterTask = Tasks.filter((task)=>task.status === event.value)
+        console.log(tabFilterTask)
+        setTasks(tabFilterTask)
+      }
   }
   return (
     <div>
@@ -46,6 +54,7 @@ const page = () => {
           <h2 className='font-bold text-2xl p-4'>Liste de taches et status</h2>
           <select onChange={handleSelect} className="select select-secondary w-full max-w-xs">
             <option>Filtrer par Status : </option>
+            <option value="All">All</option>
             <option value="en_cours">En cours</option>
             <option value="termine">Terminé</option>
           </select>
@@ -63,7 +72,7 @@ const page = () => {
                 <th>Title</th>
                 <th>Description</th>
                 <th>Priority</th>
-                <th>Status</th>
+                <th>Status  ({Tasks?.length})</th>
                 <th>Author</th>
                 <th>Deadline</th>
                 <th>Created At</th>
