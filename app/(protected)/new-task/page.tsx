@@ -131,7 +131,7 @@ const page = () => {
 
               </div>
               <div>
-                <label htmlFor="email" className="font-semibold">Deadline : </label>
+                <label htmlFor="email" className="font-semibold">Deadline au Format Month/Date/Year : </label>
                 <div className="relative">
                   <DatePicker
                     required

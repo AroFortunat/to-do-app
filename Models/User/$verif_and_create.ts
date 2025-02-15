@@ -16,9 +16,7 @@ export const verifUserAndCreate = async (user:User)=>{
                     email:user.email
                 }
             })
-        }else{
-            console.error('User existant déjà')
-        } 
+        }
     } catch (error) {
         console.error(error)   
     }
