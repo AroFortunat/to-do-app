@@ -1,7 +1,7 @@
 "server only"
 import { prisma } from "@/lib/prisma"
 
-export const fetchAllTaskByIdModel = async (userEmail:string)=>{
+export const fetchAllTaskByAssignModel = async (userEmail:string)=>{
     try {
         if (!userEmail) return console.error('Champ manquant') 
         const fetchAllTask = await prisma.task.findMany({
