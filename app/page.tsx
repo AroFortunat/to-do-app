@@ -2,9 +2,11 @@
 
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export default function Home() {
   const { user, isSignedIn } = useUser()
+  const [Loader, setLoader] = useState<boolean>(true);
   const router = useRouter()
   const handleClickSignIn = () => {
     router.push('/sign-in')
@@ -18,6 +20,11 @@ export default function Home() {
   const handleClickNewTask = () => {
     router.push(`/new-task`)
   }
+  useEffect(() => {
+    if (user) {
+      setLoader(false)
+    }
+  }, [user]);
   return (
     <div>
       <div
@@ -34,14 +41,21 @@ export default function Home() {
             </p>
             {isSignedIn ? (
               <>
-                <div className="flex mb-5">
-                  <button
-                    onClick={handleClickRedirectTask}
-                    className="btn btn-primary text-xl">Accéder a vos liste de taches</button>
-                  <button
-                    onClick={handleClickNewTask}
-                    className="btn btn-primary ml-4 text-xl btn-outline">Ajouter une nouvelle Taches</button>
-                </div>
+                {Loader ? (
+                  <div className="flex items-center justify-center gap-4">
+                    <div className="skeleton h-4 w-28"></div>
+                    <div className="skeleton h-4 w-28"></div>
+                  </div>
+                ) : (
+                  <div className="flex mb-5">
+                    <button
+                      onClick={handleClickRedirectTask}
+                      className="btn btn-primary text-xl">Accéder a vos liste de taches</button>
+                    <button
+                      onClick={handleClickNewTask}
+                      className="btn btn-primary ml-4 text-xl btn-outline">Ajouter une nouvelle Taches</button>
+                  </div>
+                )}
               </>
             ) : (
               <>
