@@ -24,7 +24,7 @@ const UrgentAndImportant: React.FC<propsss> = ({ TasksList }) => {
     const taskFilterPriority = TasksList.filter((task) => task.Priority === 'urgent_and_important' && task.status === 'en_cours')
     return (
         <div className='max-h-screen'>
-            <article className="rounded-xl border border-red-500 h-[450px] overflow-scroll">
+            <article className="rounded-xl border border-red-500 h-[450px] overflow-y-scroll">
                 <div className="flex bg-red-500 items-center p-5 rounded-t-xl gap-4">
                     <div className='w-10 h-10 border-2 flex items-center justify-center rounded-full'>
                         <span className='text-white font-bold'>1</span>
