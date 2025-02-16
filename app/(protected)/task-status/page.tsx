@@ -24,28 +24,31 @@ type tabTaskByUser = ({
 const page = () => {
   const { user } = useUser()
   const [Loading, setLoading] = useState<boolean>(true);
-  const [Tasks, setTasks] = useState<void | tabTaskByUser[]>([]);
+  const [Tasks, setTasks] = useState<tabTaskByUser[]>([]);
   const fetchTasks = async (email: string) => {
     const AllTaskByUser = await fetchAllTaskByAssignAction(email)
-    setTasks(AllTaskByUser)
+    setTasks(AllTaskByUser || [])
     setLoading(false)
+    return AllTaskByUser
   }
   useEffect(() => {
     if (user) {
       fetchTasks(user.emailAddresses[0].emailAddress)
     }
   }, [user]);
-  const handleSelect:ReactEventHandler = (e)=>{
-      const event = e.target as HTMLSelectElement
-      if (event.value === "All") {
-        fetchTasks(user?.emailAddresses[0].emailAddress as string)
-
-      }
-      if (Tasks) {
-        const tabFilterTask = Tasks.filter((task)=>task.status === event.value)
-        console.log(tabFilterTask)
+  const handleSelect: ReactEventHandler = async (e) => {
+    const event = e.target as HTMLSelectElement
+    const value = event.value
+    
+    if (value === "All") {
+      await fetchTasks(user?.emailAddresses[0].emailAddress as string)
+    } else {
+      // Filtre directement les tâches existantes
+      const allTask = await fetchTasks(user?.emailAddresses[0].emailAddress as string)
+        const tabFilterTask = allTask?.filter((task) => task.status === value)
         setTasks(tabFilterTask)
-      }
+      
+    }
   }
   return (
     <div>
