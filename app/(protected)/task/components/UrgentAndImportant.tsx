@@ -1,6 +1,6 @@
+import { updateStatusAction } from '@/app/action/Task/updateStatusTask';
 import { PriorityTypeLevel, statusTypeTask } from '@/Models/Tache/$Type';
-import { ShieldAlert } from 'lucide-react'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 type tabTaskByUser = ({
     ForeignKeyUser: {
         id: string;
@@ -22,6 +22,19 @@ interface propsss {
 }
 const UrgentAndImportant: React.FC<propsss> = ({ TasksList }) => {
     const taskFilterPriority = TasksList.filter((task) => task.Priority === 'urgent_and_important' && task.status === 'en_cours')
+    const [Tasks, setTasks] = useState(taskFilterPriority);
+    const handleClick = async (idTask: string) => {
+        await updateStatusAction(idTask)
+        const index = taskFilterPriority.findIndex(item => item.id === idTask);
+        if (index > -1) {
+            taskFilterPriority.splice(index, 1);
+        }
+    }
+    useEffect(() => {
+        if (TasksList) {
+            setTasks(taskFilterPriority)
+        }
+    }, [TasksList]);
     return (
         <div className='max-h-screen'>
             <article className="rounded-xl border border-red-500 h-[450px] overflow-y-scroll">
@@ -30,15 +43,15 @@ const UrgentAndImportant: React.FC<propsss> = ({ TasksList }) => {
                         <span className='text-white font-bold'>1</span>
                     </div>
                     <div>
-                        <h3 className="text-lg font-medium text-white">Urgent et important ({taskFilterPriority.length})</h3>
+                        <h3 className="text-lg font-medium text-white">Urgent et important ({Tasks.length})</h3>
                     </div>
                 </div>
 
                 <ul className="mt-4 p-4 space-y-2">
-                    {taskFilterPriority.map((task, key) => (
+                    {Tasks.map((task, key) => (
                         <li key={key} className='block h-full rounded-lg border border-gray-700 p-4 hover:border-pink-600"'>
                             <div className='flex'>
-                                <input type="checkbox" className="checkbox checkbox-error" />
+                                <input type="checkbox" onClick={() => handleClick(task.id)} className="checkbox checkbox-error" />
                                 <div className='ml-4'>
                                     <h3 className="">
                                         <strong className="font-bold">{task.Title} (Deadline : {`${task.Deadline.getDate()}/${task.Deadline.getMonth()}/${task.Deadline.getFullYear()}`})</strong>
