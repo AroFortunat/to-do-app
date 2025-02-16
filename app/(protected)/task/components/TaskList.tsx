@@ -41,26 +41,30 @@ const TaskList = () => {
     titre: "Urgent and Important",
     BorderColor: "border-red-500",
     BgColor: "bg-red-500",
-    Priority: "urgent_and_important"
+    Priority: "urgent_and_important",
+    checkBoxColor: "checkbox-error"
   }, {
     index: "2",
     titre: "Urgent and not Important",
     BorderColor: "border-blue-600",
     BgColor: "bg-blue-600",
-    Priority: "urgent_and__not_important"
+    Priority: "urgent_and__not_important",
+    checkBoxColor: "checkbox-info"
 
   }, {
     index: "3",
     titre: "Important Not Urgent",
     BorderColor: "border-gray-600",
     BgColor: "bg-gray-600",
-    Priority: "important_not_urgent"
+    Priority: "important_not_urgent",
+    checkBoxColor: ""
   }, {
     index: "4",
     titre: "Not Important Not Urgent ",
     BorderColor: "border-green-800",
     BgColor: "bg-green-800",
-    Priority: "not_important_not_urgent"
+    Priority: "not_important_not_urgent",
+    checkBoxColor:"checkbox-success"
   },]
   const handleCheckTask = async (idTask: string) => {
     await updateStatusAction(idTask)
@@ -87,7 +91,7 @@ const TaskList = () => {
                         <span className='text-white font-bold'>{taskInfo.index}</span>
                       </div>
                       <div>
-                        <h3 className="text-lg font-medium text-white">{taskInfo.titre} ({taskFilterPriority.length})</h3>
+                        <h3 className="text-lg font-bold uppercase text-white">{taskInfo.titre} ({taskFilterPriority.length})</h3>
                       </div>
                     </div>
                     {taskFilterPriority.length === 0 ? (
@@ -99,7 +103,7 @@ const TaskList = () => {
                         {taskFilterPriority.map((tache, cle) => (
                           <li key={cle} className='block h-full rounded-lg border border-gray-700 p-4 hover:border-pink-600"'>
                             <div className='flex'>
-                              <input type="checkbox" onClick={() => handleCheckTask(tache.id)} className="checkbox checkbox-error" />
+                              <input type="checkbox" onClick={() => handleCheckTask(tache.id)} className={`checkbox ${taskInformation[key].checkBoxColor}`} />
                               <div className='ml-4'>
                                 <h3 className="">
                                   <strong className="font-bold">{tache.Title}(Deadline : {`${tache.Deadline.getDate()}/${tache.Deadline.getMonth()}/${tache.Deadline.getFullYear()}`})</strong>
