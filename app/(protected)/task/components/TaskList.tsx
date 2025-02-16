@@ -62,9 +62,9 @@ const TaskList = () => {
     BgColor: "bg-green-800",
     Priority: "not_important_not_urgent"
   },]
-  const handleCheckTask = async (idTask:string)=>{
-      await updateStatusAction(idTask)
-      fetchTasks(user?.emailAddresses[0].emailAddress)
+  const handleCheckTask = async (idTask: string) => {
+    await updateStatusAction(idTask)
+    fetchTasks(user?.emailAddresses[0].emailAddress)
   }
   return (
     <div className='m-6'>
@@ -90,23 +90,29 @@ const TaskList = () => {
                         <h3 className="text-lg font-medium text-white">{taskInfo.titre} ({taskFilterPriority.length})</h3>
                       </div>
                     </div>
-                    <ul className="mt-4 p-4 space-y-2">
-                      {taskFilterPriority.map((tache, cle) => (
-                        <li key={cle} className='block h-full rounded-lg border border-gray-700 p-4 hover:border-pink-600"'>
-                          <div className='flex'>
-                            <input type="checkbox" onClick={()=>handleCheckTask(tache.id)} className="checkbox checkbox-error" />
-                            <div className='ml-4'>
-                              <h3 className="">
-                                <strong className="font-bold">{tache.Title}(Deadline : {`${tache.Deadline.getDate()}/${tache.Deadline.getMonth()}/${tache.Deadline.getFullYear()}`})</strong>
-                              </h3>
-                              <p className="mt-1 text-xs font-medium">
-                                {tache.Description}
-                              </p>
+                    {taskFilterPriority.length === 0 ? (
+                      <div className=' flex justify-center items-center mt-28'>
+                        <p className='text-xl'>Tous les taches sont terminer Veuillez crée des nouvelles taches</p>
+                      </div>
+                    ) : (
+                      <ul className="mt-4 p-4 space-y-2">
+                        {taskFilterPriority.map((tache, cle) => (
+                          <li key={cle} className='block h-full rounded-lg border border-gray-700 p-4 hover:border-pink-600"'>
+                            <div className='flex'>
+                              <input type="checkbox" onClick={() => handleCheckTask(tache.id)} className="checkbox checkbox-error" />
+                              <div className='ml-4'>
+                                <h3 className="">
+                                  <strong className="font-bold">{tache.Title}(Deadline : {`${tache.Deadline.getDate()}/${tache.Deadline.getMonth()}/${tache.Deadline.getFullYear()}`})</strong>
+                                </h3>
+                                <p className="mt-1 text-xs font-medium">
+                                  {tache.Description}
+                                </p>
+                              </div>
                             </div>
-                          </div>
-                        </li>
-                      ))}
-                    </ul>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
                   </article>
                 </div>
               </>
