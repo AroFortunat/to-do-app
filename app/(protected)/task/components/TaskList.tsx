@@ -69,7 +69,7 @@ const TaskList = () => {
   },]
   const handleCheckTask = async (idTask: string) => {
     await updateStatusAction(idTask)
-    fetchTasks(user?.emailAddresses[0].emailAddress)
+    fetchTasks(user?.emailAddresses[0].emailAddress as string)
   }
   return (
     <div className='m-6'>
