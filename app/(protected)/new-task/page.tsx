@@ -40,6 +40,7 @@ const page = () => {
     }
     createTaskAction(TaskByForm)
     setnotification("Taches Ajouter avec succès")
+    e.currentTarget.reset()
   }
   useEffect(() => {
     fetchUsers()
