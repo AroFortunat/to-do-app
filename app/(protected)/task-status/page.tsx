@@ -52,7 +52,7 @@ const Page = () => {
       // Filtrer directement les tâches existantes
       const allTask = await fetchTasks(user?.emailAddresses[0].emailAddress as string);
       const filteredTasks = allTask?.filter((task) => task.status === value);
-      setTasks(filteredTasks);
+      setTasks(filteredTasks ?? []);
       setCurrentPage(1); // réinitialiser la pagination après filtrage
     }
   };
