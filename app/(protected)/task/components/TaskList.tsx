@@ -79,7 +79,7 @@ const TaskList = () => {
           </div>
         </>
       ) : (
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           {taskInformation.map((taskInfo, key) => {
             const taskFilterPriority = Tasks.filter((task) => task.Priority === `${taskInformation[key].Priority}` && task.status === 'en_cours')
             return (
@@ -106,7 +106,7 @@ const TaskList = () => {
                               <input type="checkbox" onClick={() => handleCheckTask(tache.id)} className={`checkbox ${taskInformation[key].checkBoxColor}`} />
                               <div className='ml-4'>
                                 <h3 className="">
-                                  <strong className="font-bold">{tache.Title}(Deadline : {`${tache.Deadline.getDate()}/${tache.Deadline.getMonth()}/${tache.Deadline.getFullYear()}`})</strong>
+                                  <strong className="font-bold">{tache.Title} (Deadline : {`${tache.Deadline.getDate()}/${tache.Deadline.getMonth()}/${tache.Deadline.getFullYear()}`})</strong>
                                 </h3>
                                 <p className="mt-1 text-xs font-medium">
                                   {tache.Description}
