@@ -4,6 +4,7 @@ import { fetchAllTaskByAssignAction } from '@/app/action/Task/fetchTaskById'
 import { useUser } from '@clerk/nextjs'
 import { PriorityTypeLevel, statusTypeTask } from '@/Models/Tache/$Type'
 import { updateStatusAction } from '@/app/action/Task/updateStatusTask'
+import Link from 'next/link'
 
 type tabTaskByUser = ({
   ForeignKeyUser: {
@@ -95,8 +96,9 @@ const TaskList = () => {
                       </div>
                     </div>
                     {taskFilterPriority.length === 0 ? (
-                      <div className=' flex justify-center items-center mt-28'>
+                      <div className=' flex flex-col justify-center items-center mt-28'>
                         <p className='text-xl'>Tous les taches sont terminer Veuillez crée des nouvelles taches</p>
+                        <Link href={'/new-task'} className='btn btn-secondary mt-10'>+ Ajouter une nouvelle Taches</Link>
                       </div>
                     ) : (
                       <ul className="mt-4 p-4 space-y-2">
