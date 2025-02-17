@@ -86,8 +86,8 @@ const TaskList = () => {
             return (
               <>
                 <div key={key} className='max-h-screen'>
-                  <article className={`rounded-xl border ${taskInfo.BorderColor} h-[400px] overflow-y-scroll`}>
-                    <div className={`flex ${taskInfo.BgColor} items-center p-5  gap-4`}>
+                  <article className={`rounded-xl border ${taskInfo.BorderColor} h-[400px] overflow-y-auto `}>
+                    <div className={`flex ${taskInfo.BgColor} items-center p-5 rounded-t-xl  gap-4`}>
                       <div className='w-10 h-10 border-2 flex items-center justify-center rounded-full'>
                         <span className='text-white font-bold'>{taskInfo.index}</span>
                       </div>

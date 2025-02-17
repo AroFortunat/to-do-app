@@ -19,3 +19,23 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Pour Chrome, Safari et Opera */
+::-webkit-scrollbar {
+  width: 10px;               /* Largeur de la scrollbar */
+}
+
+::-webkit-scrollbar-track {
+  background: #888;          /* Couleur de la piste */
+  border-radius: 5px;        /* Arrondi de la piste */
+}
+
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;          /* Couleur au survol */
+}
+
+/* Pour Firefox */
+* {
+  scrollbar-width: thin;              /* scrollbar "fine" */
+}
