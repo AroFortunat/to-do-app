@@ -5,7 +5,7 @@ import { useUser } from '@clerk/nextjs'
 import { PriorityTypeLevel, statusTypeTask } from '@/Models/Tache/$Type'
 import { updateStatusAction } from '@/app/action/Task/updateStatusTask'
 import Link from 'next/link'
-import { Pencil, Trash2 } from 'lucide-react'
+import { ClipboardPlus, Pencil, Trash2 } from 'lucide-react'
 import { deleteTaskAction } from '@/app/action/Task/deleteTask'
 
 type tabTaskByUser = ({
@@ -84,9 +84,9 @@ const TaskList = () => {
     await updateStatusAction(idTask)
     fetchTasks(user?.emailAddresses[0].emailAddress as string)
   }
-  const handleDeleteTask = async (idTask:string)=>{
-     await deleteTaskAction(idTask)
-     fetchTasks(user?.emailAddresses[0].emailAddress as string)
+  const handleDeleteTask = async (idTask: string) => {
+    await deleteTaskAction(idTask)
+    fetchTasks(user?.emailAddresses[0].emailAddress as string)
   }
   return (
     <div className='m-6'>
@@ -121,16 +121,24 @@ const TaskList = () => {
                       <p className='text-xl'>
                         Toutes les tâches sont terminées. Veuillez créer de nouvelles tâches.
                       </p>
-                      <Link href={'/new-task'} className='btn btn-secondary mt-10'>
-                        + Ajouter une nouvelle Tâche
-                      </Link>
+                      <div className='flex'>
+                        <Link href={'/new-task'} className='btn text-white text-lg btn-secondary mt-10'>
+                          <ClipboardPlus />
+                          Ajouter une nouvelle Tâche
+                        </Link>
+                      </div>
                     </div>
                   ) : (
                     <ul className="mt-4 p-4 space-y-2">
                       {taskFilterPriority.map((tache, cle) => (
                         <li
                           key={cle}
-                          className='block h-full rounded-lg border border-gray-700 p-4 hover:border-pink-600'
+                          className={`block h-full rounded-lg border border-gray-700 p-4 
+                            ${tache.Priority === 'urgent_and_important' ? 'hover:border-red-500' :
+                              tache.Priority === 'urgent_and__not_important' ? 'hover:border-blue-600' :
+                                tache.Priority === 'important_not_urgent' ? 'hover:border-gray-600' :
+                                  tache.Priority === 'not_important_not_urgent' ? 'hover:border-green-800' : ''
+                            }`}
                           // Au survol de l'élément, on enregistre l'index
                           onMouseEnter={() => setHoveredIndex(tache.id)}
                           onMouseLeave={() => setHoveredIndex(null)}
@@ -158,7 +166,7 @@ const TaskList = () => {
                                 <button className='mr-5'>
                                   <Pencil className='w-5' />
                                 </button>
-                                <button onClick={()=> handleDeleteTask(tache.id)}>
+                                <button onClick={() => handleDeleteTask(tache.id)}>
                                   <Trash2 className='text-red-500 w-5' />
                                 </button>
                               </div>
