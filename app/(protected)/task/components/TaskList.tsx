@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect, useState } from 'react'
+import React, {  useEffect, useState } from 'react'
 import { fetchAllTaskByAssignAction } from '@/app/action/Task/fetchTaskById'
 import { useUser } from '@clerk/nextjs'
 import { PriorityTypeLevel, statusTypeTask } from '@/Models/Tache/$Type'
@@ -7,6 +7,8 @@ import { updateStatusAction } from '@/app/action/Task/updateStatusTask'
 import Link from 'next/link'
 import { ClipboardPlus, Pencil, Trash2 } from 'lucide-react'
 import { deleteTaskAction } from '@/app/action/Task/deleteTask'
+import UpdateForm from '@/app/Components/UpdateForm'
+
 
 type tabTaskByUser = ({
   ForeignKeyUser: {
@@ -88,6 +90,7 @@ const TaskList = () => {
     await deleteTaskAction(idTask)
     fetchTasks(user?.emailAddresses[0].emailAddress as string)
   }
+  
   return (
     <div className='m-6'>
       {Loader ? (
@@ -163,7 +166,9 @@ const TaskList = () => {
                             {/* On n'affiche les icônes que si l'index survolé correspond à cet item */}
                             {hoveredIndex === tache.id && (
                               <div className='flex items-center ml-auto'>
-                                <button className='mr-5'>
+                                <button
+                                  onClick={() => (document.getElementById(`${tache.id}`) as HTMLDialogElement).showModal()}
+                                  className='mr-5'>
                                   <Pencil className='w-5' />
                                 </button>
                                 <button onClick={() => handleDeleteTask(tache.id)}>
@@ -171,6 +176,10 @@ const TaskList = () => {
                                 </button>
                               </div>
                             )}
+                            <UpdateForm 
+                            fetchTaskByUser={fetchTasks}
+                            userEmail={user?.emailAddresses[0].emailAddress as string}
+                            tache={tache}/>
                           </div>
                         </li>
                       ))}
