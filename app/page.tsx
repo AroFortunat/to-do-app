@@ -3,6 +3,7 @@
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { TextGenerateEffect } from "./Components/ui/text-generate-effect";
 
 export default function Home() {
   const { user, isSignedIn } = useUser()
@@ -35,10 +36,12 @@ export default function Home() {
         <div className="hero-overlay bg-opacity-60"></div>
         <div className="hero-content text-neutral-content text-center">
           <div className="max-w-lg">
-            <h1 className="mb-5 text-8xl font-bold"><span className="text-primary">To DO </span> App</h1>
-            <p className="mb-5 text-2xl">
-              Avec <span className="text-primary font-bold"> To DO </span>, transformez votre quotidien en une expérience fluide et sans stress. Planifiez, priorisez et accomplissez vos objectifs grâce à une interface intuitive conçue pour <span className="font-bold text-primary"> vous faire gagner du temps </span> et de la sérénité.
-            </p>
+            <TextGenerateEffect duration={3} filter={false} words="To Do App" />
+            <div className="my-5">
+              <p className="mb-5 text-2xl">
+                Avec <span className="text-primary font-bold"> To DO </span>, transformez votre quotidien en une expérience fluide et sans stress. Planifiez, priorisez et accomplissez vos objectifs grâce à une interface intuitive conçue pour <span className="font-bold text-primary"> vous faire gagner du temps </span> et de la sérénité.
+              </p>
+            </div>
             {isSignedIn ? (
               <>
                 {Loader ? (
