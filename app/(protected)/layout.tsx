@@ -1,6 +1,8 @@
 'use client'
 import { SignedIn, UserButton, useUser } from '@clerk/nextjs'
+import { ChartNoAxesCombined, ClipboardPlus, LayoutDashboard } from 'lucide-react'
 import Image from 'next/image'
+import Link from 'next/link'
 import React, { ReactNode } from 'react'
 interface propss {
     children: ReactNode
@@ -22,9 +24,16 @@ const layout: React.FC<propss> = ({ children }) => {
                 </div>
                 <div className=''>
                     <ul className='flex gap-4'>
-                        <li className='btn btn-secondary text-white'><a href={`/task/${user?.id}`}>Task</a></li>
-                        <li className='btn btn-secondary text-white'><a href={'/new-task'}>New Task</a></li>
-                        <li className='btn btn-secondary text-white'><a href={'/task-status'}>Task Status</a></li>
+                        <li className='flex btn btn-secondary text-white'>
+                            <LayoutDashboard />
+                            <Link href={`/task/${user?.id}`}>Task</Link></li>
+                        <li className='flex btn btn-secondary text-white'>
+                            <ClipboardPlus />
+                            <Link href={'/new-task'}>New Task</Link></li>
+                        <li className='flex btn btn-secondary text-white'>
+                            <ChartNoAxesCombined />
+                            <Link href={'/task-status'}>Task Status</Link>
+                        </li>
                     </ul>
                 </div>
                 <div className='mr-6'>
