@@ -6,6 +6,7 @@ import { PriorityTypeLevel, statusTypeTask } from '@/Models/Tache/$Type'
 import { updateStatusAction } from '@/app/action/Task/updateStatusTask'
 import Link from 'next/link'
 import { Pencil, Trash2 } from 'lucide-react'
+import { deleteTaskAction } from '@/app/action/Task/deleteTask'
 
 type tabTaskByUser = ({
   ForeignKeyUser: {
@@ -83,7 +84,10 @@ const TaskList = () => {
     await updateStatusAction(idTask)
     fetchTasks(user?.emailAddresses[0].emailAddress as string)
   }
-
+  const handleDeleteTask = async (idTask:string)=>{
+     await deleteTaskAction(idTask)
+     fetchTasks(user?.emailAddresses[0].emailAddress as string)
+  }
   return (
     <div className='m-6'>
       {Loader ? (
@@ -154,7 +158,7 @@ const TaskList = () => {
                                 <button className='mr-5'>
                                   <Pencil className='w-5' />
                                 </button>
-                                <button>
+                                <button onClick={()=> handleDeleteTask(tache.id)}>
                                   <Trash2 className='text-red-500 w-5' />
                                 </button>
                               </div>
