@@ -112,18 +112,20 @@ const Page = () => {
                     <th>{index + 1 + indexOfFirstItem}</th>
                     <td>{task.Title}</td>
                     <td>{task.Description}</td>
-                    <td>{task.Priority}</td>
+                    <td className='flex items-center gap-4'>
+                      <div 
+                      className={`w-3 h-3 rounded-full 
+                      ${task.Priority === 'urgent_and_important' ? 'bg-red-500' : task.Priority === 'urgent_and__not_important' ? "bg-blue-600" : task.Priority === 'important_not_urgent' ? 'bg-gray-600' : task.Priority === 'not_important_not_urgent' ? "bg-green-800" : ""}`}></div>
+                      {task.Priority}</td>
                     <td>{task.status}</td>
                     <td>{task.ForeignKeyUser.email}</td>
                     <td>
-                      {`${task.Deadline.getDate()}/${
-                        task.Deadline.getMonth() + 1
-                      }/${task.Deadline.getFullYear()}`}
+                      {`${task.Deadline.getDate()}/${task.Deadline.getMonth() + 1
+                        }/${task.Deadline.getFullYear()}`}
                     </td>
                     <td>
-                      {`${task.Created_At.getDate()}/${
-                        task.Created_At.getMonth() + 1
-                      }/${task.Created_At.getFullYear()}`}
+                      {`${task.Created_At.getDate()}/${task.Created_At.getMonth() + 1
+                        }/${task.Created_At.getFullYear()}`}
                     </td>
                   </tr>
                 ))}
@@ -133,8 +135,8 @@ const Page = () => {
             {/* Nouvelle UI de Pagination */}
             <div className="flex justify-center mt-4">
               <div className="join">
-                <button 
-                  className="join-item btn" 
+                <button
+                  className="join-item btn"
                   onClick={handlePrevious}
                   disabled={currentPage <= 1}
                 >
@@ -143,8 +145,8 @@ const Page = () => {
                 <button className="join-item btn">
                   Page {currentPage} {totalPages > 0 && `of ${totalPages}`}
                 </button>
-                <button 
-                  className="join-item btn" 
+                <button
+                  className="join-item btn"
                   onClick={handleNext}
                   disabled={currentPage >= totalPages}
                 >
