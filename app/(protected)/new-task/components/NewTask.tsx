@@ -23,7 +23,8 @@ const NewTask = () => {
   })
   const { mutate } = useMutation(createTaskAction, {
     mutationKey: ["AddTask"],
-    onSuccess: () => setnotification("Taches Ajouter avec succès")
+    onSuccess: () => setnotification("Taches Ajouter avec succès"),
+    onError:()=> window.alert(" Erreur la taches n'a pas pu etre ajouter , verifier votre donnée avant d'enregistrer ")
   });
   const handleSubmit: ReactEventHandler = (e) => {
     e.preventDefault()
