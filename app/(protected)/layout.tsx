@@ -3,7 +3,7 @@ import { SignedIn, UserButton, useUser } from '@clerk/nextjs'
 import { ChartNoAxesCombined, ClipboardPlus, LayoutDashboard } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
-import React, { ReactNode, useEffect, useState } from 'react'
+import React, { ReactNode, Suspense, useEffect, useState } from 'react'
 import QueryProvider from '../Components/QueryProvider'
 interface propss {
     children: ReactNode
@@ -58,7 +58,9 @@ const layout: React.FC<propss> = ({ children }) => {
                 </nav>
             )}
             <QueryProvider>
-                {children}
+                <Suspense fallback={"En attente"}>
+                    {children}
+                </Suspense>
             </QueryProvider>
         </div>
     )

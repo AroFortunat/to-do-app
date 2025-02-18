@@ -2,7 +2,8 @@
 import { fetchAllTaskByAssignAction } from '@/app/action/Task/fetchTaskById';
 import { PriorityTypeLevel, statusTypeTask } from '@/Models/Tache/$Type';
 import { useUser } from '@clerk/nextjs';
-import React, { ReactEventHandler, useEffect, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import React, { ReactEventHandler, useState } from 'react';
 
 type tabTaskByUser = ({
   ForeignKeyUser: {
@@ -23,35 +24,21 @@ type tabTaskByUser = ({
 
 const Page = () => {
   const { user } = useUser();
-  const [loading, setLoading] = useState<boolean>(true);
   const [tasks, setTasks] = useState<tabTaskByUser[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const itemsPerPage = 10;
-
-  const fetchTasks = async (email: string) => {
-    const allTaskByUser = await fetchAllTaskByAssignAction(email);
-    setTasks(allTaskByUser || []);
-    setLoading(false);
-    setCurrentPage(1); // réinitialiser la page courante après récupération
-    return allTaskByUser;
-  };
-
-  useEffect(() => {
-    if (user) {
-      fetchTasks(user.emailAddresses[0].emailAddress);
-    }
-  }, [user]);
-
+  const {data,isLoading,refetch} = useQuery({
+      queryKey:["fetchTaskByUser"],
+      queryFn:()=>fetchAllTaskByAssignAction(user?.emailAddresses[0].emailAddress as string),
+      suspense:true
+  })
   const handleSelect: ReactEventHandler = async (e) => {
     const event = e.target as HTMLSelectElement;
     const value = event.value;
-
     if (value === "All") {
-      await fetchTasks(user?.emailAddresses[0].emailAddress as string);
+      refetch()
     } else {
-      // Filtrer directement les tâches existantes
-      const allTask = await fetchTasks(user?.emailAddresses[0].emailAddress as string);
-      const filteredTasks = allTask?.filter((task) => task.status === value);
+      const filteredTasks = data?.filter((task) => task.status === value);
       setTasks(filteredTasks ?? []);
       setCurrentPage(1); // réinitialiser la pagination après filtrage
     }
@@ -64,15 +51,11 @@ const Page = () => {
   const totalPages = Math.ceil(tasks.length / itemsPerPage);
 
   const handlePrevious = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
-    }
+    if (currentPage > 1) setCurrentPage(currentPage - 1);
   };
 
   const handleNext = () => {
-    if (currentPage < totalPages) {
-      setCurrentPage(currentPage + 1);
-    }
+    if (currentPage < totalPages) setCurrentPage(currentPage + 1);
   };
 
   return (
@@ -87,7 +70,7 @@ const Page = () => {
             <option value="termine">Terminé</option>
           </select>
         </div>
-        {loading ? (
+        {isLoading ? (
           <div className="flex justify-center items-center lg:mt-56">
             <span className="loading loading-bars loading-lg"></span>
           </div>
@@ -131,8 +114,6 @@ const Page = () => {
                 ))}
               </tbody>
             </table>
-
-            {/* Nouvelle UI de Pagination */}
             <div className="flex justify-center mt-4">
               <div className="join">
                 <button
