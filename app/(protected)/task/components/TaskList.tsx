@@ -1,52 +1,23 @@
 "use client"
-import React, {  useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { fetchAllTaskByAssignAction } from '@/app/action/Task/fetchTaskById'
 import { useUser } from '@clerk/nextjs'
-import { PriorityTypeLevel, statusTypeTask } from '@/Models/Tache/$Type'
 import { updateStatusAction } from '@/app/action/Task/updateStatusTask'
 import Link from 'next/link'
 import { ClipboardPlus, Pencil, Trash2 } from 'lucide-react'
 import { deleteTaskAction } from '@/app/action/Task/deleteTask'
 import UpdateForm from '@/app/Components/UpdateForm'
+import { useQuery } from '@tanstack/react-query'
 
-
-type tabTaskByUser = ({
-  ForeignKeyUser: {
-    id: string;
-    email: string;
-  };
-} & {
-  id: string;
-  Title: string;
-  Description: string | null;
-  Priority: PriorityTypeLevel;
-  status: statusTypeTask;
-  Author_id: string;
-  Assign_at: string;
-  Deadline: Date;
-  Created_At: Date;
-})
 
 const TaskList = () => {
   const { user } = useUser()
-  const [Tasks, setTasks] = useState<tabTaskByUser[]>([]);
-  const [Loader, setLoader] = useState<boolean>(true);
-
-  // On stocke l'index de l'élément survolé
   const [hoveredIndex, setHoveredIndex] = useState<string | null>(null);
-
-  const fetchTasks = async (email: string) => {
-    const AllTaskByUser = await fetchAllTaskByAssignAction(email)
-    setTasks(AllTaskByUser || [])
-  }
-
-  useEffect(() => {
-    if (user) {
-      fetchTasks(user.emailAddresses[0].emailAddress)
-      setLoader(false)
-    }
-  }, [user]);
-
+  const { data, isLoading, refetch } = useQuery({
+    queryKey: ["fetchTaskUser"],
+    queryFn: () => fetchAllTaskByAssignAction(user?.emailAddresses[0].emailAddress as string),
+    suspense: true
+  })
   const taskInformation = [
     {
       index: "1",
@@ -84,23 +55,23 @@ const TaskList = () => {
 
   const handleCheckTask = async (idTask: string) => {
     await updateStatusAction(idTask)
-    fetchTasks(user?.emailAddresses[0].emailAddress as string)
+    refetch()
   }
   const handleDeleteTask = async (idTask: string) => {
     await deleteTaskAction(idTask)
-    fetchTasks(user?.emailAddresses[0].emailAddress as string)
+    refetch()
   }
-  
+
   return (
     <div className='m-6'>
-      {Loader ? (
+      {isLoading ? (
         <div className='flex justify-center items-center lg:mt-56'>
           <span className="loading loading-bars loading-lg"></span>
         </div>
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           {taskInformation.map((taskInfo, key) => {
-            const taskFilterPriority = Tasks.filter(
+            const taskFilterPriority = data?.filter(
               (task) => task.Priority === taskInfo.Priority && task.status === 'en_cours'
             )
             return (
@@ -114,12 +85,12 @@ const TaskList = () => {
                     </div>
                     <div>
                       <h3 className="text-lg font-bold uppercase text-white">
-                        {taskInfo.titre} ({taskFilterPriority.length})
+                        {taskInfo.titre} ({taskFilterPriority?.length})
                       </h3>
                     </div>
                   </div>
 
-                  {taskFilterPriority.length === 0 ? (
+                  {taskFilterPriority?.length === 0 ? (
                     <div className='flex flex-col justify-center items-center mt-28'>
                       <p className='text-xl'>
                         Toutes les tâches sont terminées. Veuillez créer de nouvelles tâches.
@@ -133,7 +104,7 @@ const TaskList = () => {
                     </div>
                   ) : (
                     <ul className="mt-4 p-4 space-y-2">
-                      {taskFilterPriority.map((tache, cle) => (
+                      {taskFilterPriority?.map((tache, cle) => (
                         <li
                           key={cle}
                           className={`block h-full rounded-lg border border-gray-700 p-4 
@@ -176,10 +147,9 @@ const TaskList = () => {
                                 </button>
                               </div>
                             )}
-                            <UpdateForm 
-                            fetchTaskByUser={fetchTasks}
-                            userEmail={user?.emailAddresses[0].emailAddress as string}
-                            tache={tache}/>
+                            <UpdateForm
+                              fetchTaskByUser={refetch}
+                              tache={tache} />
                           </div>
                         </li>
                       ))}

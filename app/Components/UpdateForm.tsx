@@ -25,10 +25,9 @@ type tabTaskByUser = ({
 
 interface propss {
     tache: tabTaskByUser,
-    userEmail:string,
-    fetchTaskByUser: (email : string) => Promise<void>
+    fetchTaskByUser: ()=>void
 }
-const UpdateForm: React.FC<propss> = ({ tache,fetchTaskByUser,userEmail }) => {
+const UpdateForm: React.FC<propss> = ({ tache,fetchTaskByUser }) => {
     const { user } = useUser()
     const [Users, setUsers] = useState<User[]>([]);
     const fetchUsers = async () => {
@@ -54,7 +53,7 @@ const UpdateForm: React.FC<propss> = ({ tache,fetchTaskByUser,userEmail }) => {
         }
 
         await updateTaskAction(tache.id,dataTaskUpdate)
-        fetchTaskByUser(userEmail)
+        fetchTaskByUser()
         form.close()
     }
     useEffect(() => {
