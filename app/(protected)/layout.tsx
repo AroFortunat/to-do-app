@@ -57,11 +57,7 @@ const layout: React.FC<propss> = ({ children }) => {
                     </div>
                 </nav>
             )}
-            <QueryProvider>
-                <Suspense fallback={"En attente"}>
                     {children}
-                </Suspense>
-            </QueryProvider>
         </div>
     )
 }

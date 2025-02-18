@@ -7,7 +7,9 @@ const page = () => {
 
   return (
     <div>
+      <Suspense>
         <TaskList />
+      </Suspense>
     </div>
   )
 }
