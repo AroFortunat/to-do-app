@@ -4,10 +4,18 @@ import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { TextGenerateEffect } from "./Components/ui/text-generate-effect";
-
+import { verifUser } from '@/app/action/User/verif'
 export default function Home() {
   const { user, isSignedIn } = useUser()
   const [Loader, setLoader] = useState<boolean>(true);
+  const verification_Utilisateur_Existant_Et_Ajouter_A_la_Base_si_Inexistant = async (id: string, email: string) => {
+     await verifUser(id, email)
+  }
+  useEffect(() => {
+      if (user) {
+        verification_Utilisateur_Existant_Et_Ajouter_A_la_Base_si_Inexistant(user.id,user.emailAddresses[0].emailAddress)
+      }
+  }, [user]);
   const router = useRouter()
   const handleClickSignIn = () => {
     router.push('/sign-in')

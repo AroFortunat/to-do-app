@@ -32,7 +32,6 @@ const TaskList = () => {
   const [Tasks, setTasks] = useState<tabTaskByUser[]>([]);
   const [Loader, setLoader] = useState<boolean>(true);
 
-  // On stocke l'index de l'élément survolé
   const [hoveredIndex, setHoveredIndex] = useState<string | null>(null);
 
   const fetchTasks = async (email: string) => {
