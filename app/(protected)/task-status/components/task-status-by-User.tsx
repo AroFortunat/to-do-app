@@ -30,7 +30,7 @@ const TaskStatusByUser = () => {
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentTasks = tasks?.slice(indexOfFirstItem, indexOfLastItem);
-  const totalPages = Math.ceil(tasks?.length / itemsPerPage);
+  const totalPages = Math.ceil((tasks?.length ?? 0) / itemsPerPage);
 
   const handlePrevious = () => {
     if (currentPage > 1) setCurrentPage(currentPage - 1);
@@ -61,7 +61,7 @@ const TaskStatusByUser = () => {
             <table className="table table-zebra">
               <thead>
                 <tr>
-                  <th></th>
+                  <th>#</th>
                   <th>Title</th>
                   <th>Description</th>
                   <th>Priority</th>

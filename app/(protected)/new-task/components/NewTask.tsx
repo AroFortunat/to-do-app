@@ -61,8 +61,8 @@ const NewTask = () => {
     const templateParams = {
       from_name: user?.emailAddresses[0].emailAddress,
       to_name: assignAt,
-      priority:priorityLevel,
-      deadline:startDate,
+      priority: priorityLevel,
+      deadline: startDate,
       message: `
        Titre : ${title} 
        Description : ${description}
@@ -81,8 +81,7 @@ const NewTask = () => {
           console.log('FAILED...', error);
         }
       );
-
-    e.currentTarget.reset();
+    (e.currentTarget as HTMLFormElement).reset();
   };
 
   return (
