@@ -1,57 +1,46 @@
 "use client"
 import React, { useState } from 'react'
-import { fetchAllTaskByAssignAction } from '@/app/action/Task/fetchTaskById'
-import { useUser } from '@clerk/nextjs'
 import { updateStatusAction } from '@/app/action/Task/updateStatusTask'
 import Link from 'next/link'
 import { ClipboardPlus, Pencil, Trash2 } from 'lucide-react'
 import { deleteTaskAction } from '@/app/action/Task/deleteTask'
 import UpdateForm from '@/app/Components/UpdateForm'
-import { useQuery } from '@tanstack/react-query'
+import { PriorityType, statusType } from '@prisma/client'
 
+type dataType= void | ({
+  ForeignKeyUser: {
+      email: string;
+      id: string;
+  };
+} & {
+  id: string;
+  Title: string;
+  Description: string | null;
+  Priority: PriorityType;
+  status: statusType;
+  Author_id: string;
+  Assign_at: string;
+  Deadline: Date;
+  Created_At: Date;
+})[] | undefined
 
-const TaskList = () => {
-  const { user } = useUser()
+type taskInformationType =  {
+  index: string;
+  titre: string;
+  BorderColor: string;
+  BgColor: string;
+  Priority: string;
+  checkBoxColor: string;
+}[]
+interface propsss{
+  data :dataType,
+  isLoading:boolean,
+  refetch:()=>void,
+  taskInformation:taskInformationType
+}
+const TaskList:React.FC<propsss> = ({data,isLoading,refetch,taskInformation}) => {
   const [hoveredIndex, setHoveredIndex] = useState<string | null>(null);
-  const { data, isLoading, refetch } = useQuery({
-    queryKey: ["fetchTaskUser"],
-    queryFn: () => fetchAllTaskByAssignAction(user?.emailAddresses[0].emailAddress as string),
-    suspense: true
-  })
-  const taskInformation = [
-    {
-      index: "1",
-      titre: "Urgent and Important",
-      BorderColor: "border-red-500",
-      BgColor: "bg-red-500",
-      Priority: "urgent_and_important",
-      checkBoxColor: "checkbox-error"
-    },
-    {
-      index: "2",
-      titre: "Urgent and not Important",
-      BorderColor: "border-blue-600",
-      BgColor: "bg-blue-600",
-      Priority: "urgent_and__not_important",
-      checkBoxColor: "checkbox-info"
-    },
-    {
-      index: "3",
-      titre: "Important Not Urgent",
-      BorderColor: "border-gray-600",
-      BgColor: "bg-gray-600",
-      Priority: "important_not_urgent",
-      checkBoxColor: ""
-    },
-    {
-      index: "4",
-      titre: "Not Important Not Urgent",
-      BorderColor: "border-green-800",
-      BgColor: "bg-green-800",
-      Priority: "not_important_not_urgent",
-      checkBoxColor: "checkbox-success"
-    },
-  ]
+
 
   const handleCheckTask = async (idTask: string) => {
     await updateStatusAction(idTask)

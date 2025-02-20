@@ -10,8 +10,17 @@ import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import emailjs from '@emailjs/browser';
 
-const NewTask = () => {
-  const { user } = useUser();
+type dataType= {
+  email: string;
+  id: string;
+}[] | undefined
+interface propsss{
+  email:string,
+  id:string,
+  data:dataType,
+  isLoading:Boolean,
+}
+const NewTask:React.FC<propsss>  = ({email,id,data,isLoading}) => {
   const [notification, setnotification] = useState<string>('');
   const [startDate, setStartDate] = useState<Date>(new Date());
 
@@ -23,12 +32,6 @@ const NewTask = () => {
   const service_ID = process.env.NEXT_PUBLIC_EMAIL_JS_SERVICE_ID as string;
   const template_ID = process.env.NEXT_PUBLIC_EMAIL_JS_TEMPLATE_ID as string;
   const public_KEY = process.env.NEXT_PUBLIC_EMAIL_JS_PUBLIC_KEY as string;
-
-  const { data, isLoading } = useQuery({
-    queryKey: ["fetchUsers"],
-    queryFn: () => fetchAllUsers(),
-    suspense: true
-  });
 
   const { mutate } = useMutation(createTaskAction, {
     mutationKey: ["AddTask"],
@@ -49,7 +52,7 @@ const NewTask = () => {
       Title: title,
       Description: description,
       Priority: priorityLevel,
-      Author_id: user?.id as string,
+      Author_id: id,
       Assign_at: assignAt,
       Deadline: startDate
     };
@@ -59,7 +62,7 @@ const NewTask = () => {
 
     // Préparation des paramètres pour EmailJS
     const templateParams = {
-      from_name: user?.emailAddresses[0].emailAddress,
+      from_name: email,
       to_name: assignAt,
       priority: priorityLevel,
       deadline: startDate,
@@ -67,7 +70,7 @@ const NewTask = () => {
        Titre : ${title} 
        Description : ${description}
        Priorité : ${priorityLevel}
-       Auteur du Tache : ${user?.emailAddresses[0].emailAddress} 
+       Auteur du Tache : ${email} 
        a terminer le ${startDate}`
     };
 

@@ -1,18 +1,30 @@
 "use client";
-import { fetchAllTaskByAssignAction } from '@/app/action/Task/fetchTaskById';
-import { useUser } from '@clerk/nextjs';
-import { useQuery } from '@tanstack/react-query';
+import { PriorityType, statusType } from '@prisma/client';
 import React, { ReactEventHandler, useState } from 'react';
 
-const TaskStatusByUser = () => {
-  const { user } = useUser();
+type dataType = void | ({
+  ForeignKeyUser: {
+      id: string;
+      email: string;
+  };
+} & {
+  id: string;
+  Title: string;
+  Description: string | null;
+  Priority: PriorityType;
+  status: statusType;
+  Author_id: string;
+  Assign_at: string;
+  Deadline: Date;
+  Created_At: Date;
+})[] | undefined
+interface propss{
+  data:dataType,
+  isLoading:boolean
+}
+const TaskStatusByUser:React.FC<propss> = ({data,isLoading}) => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const itemsPerPage = 10;
-  const {data,isLoading} = useQuery({
-      queryKey:["fetchTaskByUser"],
-      queryFn:()=>fetchAllTaskByAssignAction(user?.emailAddresses[0].emailAddress as string),
-      suspense:true
-  })
   const [tasks, setTasks] = useState(data);
   const handleSelect: ReactEventHandler = async (e) => {
     const event = e.target as HTMLSelectElement;

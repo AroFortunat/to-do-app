@@ -1,13 +1,16 @@
-"use client"
+
 
 import React, { Suspense } from 'react'
-import TaskStatusByUser from './components/task-status-by-User'
+import { currentUser } from '@clerk/nextjs/server'
+import CallData from './components/Call-data.tsx'
 
-const page = () => {
+const page = async () => {
+  const user = await currentUser()
+  const userEmail = user?.emailAddresses[0].emailAddress as string
   return (
     <div>
       <Suspense fallback={"wait ..."}>
-        <TaskStatusByUser />
+        <CallData email={userEmail} />
       </Suspense>
     </div>
   )
