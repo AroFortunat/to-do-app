@@ -29,9 +29,9 @@ const NewTask:React.FC<propsss>  = ({email,id,data,isLoading}) => {
   };
 
   // Les variables d'environnement doivent être préfixées par NEXT_PUBLIC_ pour être accessibles côté client
-  const service_ID = process.env.NEXT_PUBLIC_EMAIL_JS_SERVICE_ID as string;
-  const template_ID = process.env.NEXT_PUBLIC_EMAIL_JS_TEMPLATE_ID as string;
-  const public_KEY = process.env.NEXT_PUBLIC_EMAIL_JS_PUBLIC_KEY as string;
+  // const service_ID = process.env.NEXT_PUBLIC_EMAIL_JS_SERVICE_ID as string;
+  // const template_ID = process.env.NEXT_PUBLIC_EMAIL_JS_TEMPLATE_ID as string;
+  // const public_KEY = process.env.NEXT_PUBLIC_EMAIL_JS_PUBLIC_KEY as string;
 
   const { mutate } = useMutation(createTaskAction, {
     mutationKey: ["AddTask"],
@@ -60,31 +60,31 @@ const NewTask:React.FC<propsss>  = ({email,id,data,isLoading}) => {
     // Enregistrement de la tâche
     mutate(taskData);
 
-    // Préparation des paramètres pour EmailJS
-    const templateParams = {
-      from_name: email,
-      to_name: assignAt,
-      priority: priorityLevel,
-      deadline: startDate,
-      message: `
-       Titre : ${title} 
-       Description : ${description}
-       Priorité : ${priorityLevel}
-       Auteur du Tache : ${email} 
-       a terminer le ${startDate}`
-    };
+    // // Préparation des paramètres pour EmailJS
+    // const templateParams = {
+    //   from_name: email,
+    //   to_name: assignAt,
+    //   priority: priorityLevel,
+    //   deadline: startDate,
+    //   message: `
+    //    Titre : ${title} 
+    //    Description : ${description}
+    //    Priorité : ${priorityLevel}
+    //    Auteur du Tache : ${email} 
+    //    a terminer le ${startDate}`
+    // };
 
-    // Utilisation de send (et non sendForm) pour envoyer un objet
-    emailjs.send(service_ID, template_ID, templateParams, public_KEY)
-      .then(
-        (response) => {
-          console.log('SUCCESS!', response.status, response.text);
-        },
-        (error) => {
-          console.log('FAILED...', error);
-        }
-      );
-    (e.currentTarget as HTMLFormElement).reset();
+    // // Utilisation de send (et non sendForm) pour envoyer un objet
+    // emailjs.send(service_ID, template_ID, templateParams, public_KEY)
+    //   .then(
+    //     (response) => {
+    //       console.log('SUCCESS!', response.status, response.text);
+    //     },
+    //     (error) => {
+    //       console.log('FAILED...', error);
+    //     }
+    //   );
+    // (e.currentTarget as HTMLFormElement).reset();
   };
 
   return (

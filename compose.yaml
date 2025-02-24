@@ -1,5 +1,6 @@
 services:
   personal-task-manager:
+    container_name: personal-task-manager
     image: app-task-manager-nextjs
     ports:
       - "7189:3000"
