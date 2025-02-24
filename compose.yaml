@@ -1,7 +1,7 @@
 services:
   personal-task-manager:
     container_name: personal-task-manager
-    image: app-task-manager-nextjs
+    image: app-task-manager-nextjs:v1
     ports:
       - "7189:3000"
     restart: always
