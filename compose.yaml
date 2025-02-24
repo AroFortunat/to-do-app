@@ -1,0 +1,6 @@
+services:
+  personal-task-manager:
+    image: app-task-manager-nextjs
+    ports:
+      - "7189:3000"
+    restart: always
