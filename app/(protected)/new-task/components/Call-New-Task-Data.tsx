@@ -6,18 +6,24 @@ import NewTask from './NewTask';
 
 interface propsss{
   email:string,
-  id:string
+  id:string,
+  initialData:{
+    id: string;
+    email: string;
+  }[]
 }
-const CallNewTaskData:React.FC<propsss> = ({email,id}) => {
-  const { data, isLoading } = useQuery({
+const CallNewTaskData:React.FC<propsss> = ({email,id,initialData}) => {
+  const { data, isLoading } = useQuery<{
+    id: string;
+    email: string;
+  }[]>({
     queryKey: ["fetchUsers"],
-    queryFn: () => fetchAllUsers(),
-    suspense: true
+    queryFn:fetchAllUsers,
+    initialData,
   });
-
   return (
     <>
-    <NewTask email={email} id={id} data={data} isLoading={isLoading}/>
+    <NewTask id={id} data={data} isLoading={isLoading}/>
     </>
   );
 };

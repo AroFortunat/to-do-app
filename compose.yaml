@@ -5,3 +5,6 @@ services:
     ports:
       - "7189:3000"
     restart: always
+    volumes:
+      - ./dev.db:/app/dev.db  # Monte le fichier SQLite sur le conteneur
+      - ./prisma:/app/prisma   # Garde Prisma accessible depuis le conteneur
