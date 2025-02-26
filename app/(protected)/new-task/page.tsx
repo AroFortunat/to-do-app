@@ -39,8 +39,8 @@ const page = () => {
       Deadline: startDate
     }
     createTaskAction(TaskByForm)
-    setnotification("Taches Ajouter avec succès")
-    e.currentTarget.reset()
+    setnotification("Taches Ajouter avec succès");
+    (e.currentTarget as HTMLFormElement)?.reset();
   }
   useEffect(() => {
     fetchUsers()
